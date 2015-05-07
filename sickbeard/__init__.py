@@ -261,6 +261,11 @@ PUSHOVER_PRIORITY = 0
 PUSHOVER_DEVICE = None
 PUSHOVER_SOUND = None
 
+USE_SLACK = False
+SLACK_NOTIFY_ONSNATCH = False
+SLACK_NOTIFY_ONDOWNLOAD = False
+SLACK_WEBHOOK_URL = None
+
 USE_LIBNOTIFY = False
 LIBNOTIFY_NOTIFY_ONSNATCH = False
 LIBNOTIFY_NOTIFY_ONDOWNLOAD = False
@@ -363,6 +368,7 @@ def initialize(consoleLogging=True):
                 EXTRA_SCRIPTS, USE_TWITTER, TWITTER_USERNAME, TWITTER_PASSWORD, TWITTER_PREFIX, \
                 USE_BOXCAR2, BOXCAR2_ACCESS_TOKEN, BOXCAR2_NOTIFY_ONDOWNLOAD, BOXCAR2_NOTIFY_ONSNATCH, BOXCAR2_SOUND, \
                 USE_PUSHOVER, PUSHOVER_USERKEY, PUSHOVER_NOTIFY_ONDOWNLOAD, PUSHOVER_NOTIFY_ONSNATCH, PUSHOVER_PRIORITY, PUSHOVER_DEVICE, PUSHOVER_SOUND, \
+                USE_SLACK, SLACK_WEBHOOK_URL, SLACK_NOTIFY_ONSNATCH, SLACK_NOTIFY_ONDOWNLOAD, \
                 USE_LIBNOTIFY, LIBNOTIFY_NOTIFY_ONSNATCH, LIBNOTIFY_NOTIFY_ONDOWNLOAD, USE_NMJ, NMJ_HOST, NMJ_DATABASE, NMJ_MOUNT, USE_NMJv2, NMJv2_HOST, NMJv2_DATABASE, NMJv2_DBLOC, \
                 USE_SYNOINDEX, SYNOINDEX_NOTIFY_ONSNATCH, SYNOINDEX_NOTIFY_ONDOWNLOAD, SYNOINDEX_UPDATE_LIBRARY, \
                 USE_LISTVIEW, METADATA_XBMC, METADATA_XBMC_12PLUS, METADATA_MEDIABROWSER, METADATA_MEDE8ER, METADATA_PS3, metadata_provider_dict, \
@@ -612,6 +618,12 @@ def initialize(consoleLogging=True):
         PUSHOVER_PRIORITY = check_setting_int(CFG, 'Pushover', 'pushover_priority', 0)
         PUSHOVER_DEVICE = check_setting_str(CFG, 'Pushover', 'pushover_device', 'all')
         PUSHOVER_SOUND = check_setting_str(CFG, 'Pushover', 'pushover_sound', 'pushover')
+
+        CheckSection(CFG, 'Slack')
+        USE_SLACK = bool(check_setting_int(CFG, 'Slack', 'use_slack', 0))
+        SLACK_NOTIFY_ONSNATCH = bool(check_setting_int(CFG, 'Slack', 'slack_notify_onsnatch', 0))
+        SLACK_NOTIFY_ONDOWNLOAD = bool(check_setting_int(CFG, 'Slack', 'slack_notify_ondownload', 0))
+        SLACK_WEBHOOK_URL = check_setting_str(CFG, 'Slack', 'slack_webhook_url', '')
 
         CheckSection(CFG, 'Libnotify')
         USE_LIBNOTIFY = bool(check_setting_int(CFG, 'Libnotify', 'use_libnotify', 0))
@@ -1221,6 +1233,12 @@ def save_config():
     new_config['Pushbullet']['pushbullet_notify_ondownload'] = int(PUSHBULLET_NOTIFY_ONDOWNLOAD)
     new_config['Pushbullet']['pushbullet_access_token'] = PUSHBULLET_ACCESS_TOKEN
     new_config['Pushbullet']['pushbullet_device_iden'] = PUSHBULLET_DEVICE_IDEN
+
+    new_config['Slack'] = {}
+    new_config['Slack']['use_slack'] = int(USE_SLACK)
+    new_config['Slack']['slack_notify_onsnatch'] = int(SLACK_NOTIFY_ONSNATCH)
+    new_config['Slack']['slack_notify_ondownload'] = int(SLACK_NOTIFY_ONDOWNLOAD)
+    new_config['Slack']['slack_webhook_url'] = SLACK_WEBHOOK_URL
 
     new_config['Newznab'] = {}
     new_config['Newznab']['newznab_data'] = NEWZNAB_DATA

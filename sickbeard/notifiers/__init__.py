@@ -36,6 +36,7 @@ import pushbullet
 
 import tweet
 import trakt
+import slack
 
 from sickbeard.common import *
 from sickbeard import logger
@@ -60,6 +61,7 @@ pushbullet_notifier = pushbullet.PushbulletNotifier()
 # social
 twitter_notifier = tweet.TwitterNotifier()
 trakt_notifier = trakt.TraktNotifier()
+slack_notifier = slack.SlackNotifier()
 
 notifiers = [
     libnotify_notifier,  # Libnotify notifier goes first because it doesn't involve blocking on network activity.
@@ -78,6 +80,7 @@ notifiers = [
     pushbullet_notifier,
     twitter_notifier,
     trakt_notifier,
+    slack_notifier
 ]
 
 

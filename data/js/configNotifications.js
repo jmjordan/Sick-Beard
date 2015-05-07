@@ -402,4 +402,19 @@ $(document).ready(function () {
         get_pushbullet_devices();
     }
 
+    $('#testSlack').click(function() {
+        var slack_webhook_url = $.trim($('#slack_webhook_url').val());
+        if (!slack_webhook_url) {
+            $('#testSlack-result').html('Please enter a webhook URL.');
+            return;
+        }
+        $(this).prop('disabled', true);
+        $('#testSlack-result').html(loading);
+        $.get(sbRoot + '/home/testSlack', {'webhook_url':slack_webhook_url})
+            .done(function (data) {
+                $('#testSlack-result').html(data);
+                $('#testSlack').prop('disabled', false);
+            });
+    });
+
 });
