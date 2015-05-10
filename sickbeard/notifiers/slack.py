@@ -34,7 +34,7 @@ class SlackNotifier:
 
         data = json.dumps({"text": msg})
 
-        # send the request to pushover
+        # send the request to Slack
         try:
             req = urllib2.Request(webhook_url, data)
             handle = sickbeard.helpers.getURLFileLike(req, throw_exc=True)
@@ -48,11 +48,11 @@ class SlackNotifier:
 
     def _notify(self, message, webhook_url=None, force=False):
         """
-        Sends a pushover notification based on the provided info or SB config
+        Sends a slack message based on the provided info or SB config
         """
 
         # suppress notifications if the notifier is disabled but the notify options are checked
-        if not sickbeard.USE_PUSHOVER and not force:
+        if not sickbeard.USE_SLACK and not force:
             return False
 
         # fill in omitted parameters
